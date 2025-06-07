@@ -1,5 +1,9 @@
-// const asyncHandler=()=>{};
+const asyncHandler=(requestHandler)=>{
 
+    (req,res,next)=>{
+        Promise.resolve( requestHandler(req,res,next) ).catch( (err)=> next(err) );
+    }
+};
 
 
 export {asyncHandler};
@@ -8,21 +12,29 @@ export {asyncHandler};
 
 // const asyncHandler=()=>{};
 
-// const asyncHandler=(fn)=>{};
+// const asyncHandler=(func)=>{};
 
-// const asyncHandler=(fn)=>async ()=>{};
-
-
-
-const asyncHandler=(fn)=>async ()=>{
-
-    try {
+// const asyncHandler=(func)=>async ()=>{};
 
 
+
+
+// by using try catch method
+
+// const asyncHandler=(fn)=>async (req,res,next)=>{
+
+//     try {
+
+//         await fn(req,res,next);
         
-    } catch (error) {
+//     } catch (error) {
         
-        console.log("Middleware Error",error);
+//         res.status(err.code || 500).json({
+//             success:false,
+//             message:err.message
+//         })
+
+//         console.log("Middleware Error",error);           // optional
         
-    }
-};
+//     }
+// };

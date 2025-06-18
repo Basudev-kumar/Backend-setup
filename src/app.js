@@ -47,8 +47,8 @@ import userRouter from './routes/user.routes.js'
 
 app.use("/api/v1/users",userRouter);
 
-// http://localhost:8000/api/v1/users/register
-// http://localhost:8000/users/login
+// http://localhost:5000/api/v1/users/register
+// http://localhost:5000/users/login
 
 
 

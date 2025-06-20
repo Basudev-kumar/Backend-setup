@@ -166,20 +166,21 @@ const loginUser = asyncHandler(async (req,res)=>{
 
     const {username , email , password}=req.body
 
-    console.log(email);
     
 
-    if(!username && !email){
+    // if(!username && !email){
+
+    //     throw new ApiError(400,"username or password is required")
+    // }
+
+
+    // Here is an alternate of above code based on logic
+    if(!(username || email)){
 
         throw new ApiError(400,"username or password is required")
     }
 
-
-    // Here is an alternate of above code based on logic
-    // if(!(username || email)){
-
-    //     throw new ApiError(400,"username or password is required")
-    // }
+    console.log("Login inputs:", { username, email, password });
 
       
     const user= await User.findOne({
@@ -187,17 +188,25 @@ const loginUser = asyncHandler(async (req,res)=>{
     })
 
     if (!user) {
-        
+
+        console.log("No user found for given email/username.");
         throw new ApiError(404,"username does not exist")
     }
 
 
-    const isPasswordValid = await user.isPasswordCorrect(password);
+    console.log("User found:", user.email);
+    console.log("Stored (hashed) password:", user.password);
 
-    if (!isPasswordValid) {
+
+
+    const isPasswordCorrect = await user.isPasswordCorrect(password);
+    console.log("Is password correct?", isPasswordCorrect);
+
+    
+    if (!isPasswordCorrect) {
         
-        throw new ApiError(404,"Password is incorrect");
-        // throw new ApiError(404,"Invalid user credentials");
+        // throw new ApiError(404,"Password is incorrect");
+        throw new ApiError(404,"Invalid user credentials");
     }
 
 
@@ -229,8 +238,14 @@ const loginUser = asyncHandler(async (req,res)=>{
         )
     )
 
+    
+
 
 })
+
+
+
+
 
 
 
